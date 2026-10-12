@@ -1,0 +1,81 @@
+# Protocol and experiment grid for
+# "CFCNet: A Comparative Study on the Performance of Gating and Non-Gating
+#  Neural Network Architectures in Equity Market Prediction" (Computational Economics)
+#
+# Every script reads this file; command-line flags override individual values.
+# Every experiment is run for BOTH targets (adjclose, ohlc) and BOTH representations
+# (levels, returns); trim `targets` / `representations` below to reduce compute.
+
+protocol:
+  feature_cols: [Open, High, Low, Volume, AdjClose, Close]   # Min-Max scaled; weekday appended unscaled
+  add_weekday: true          # 7th input channel d_t (Mon=0 .. Fri=4)
+  targets: [adjclose, ohlc]  # adjclose: AdjC_{t+1} (1 output); ohlc: (O,H,L,C)_{t+1} (4 outputs)
+  representations: [levels, returns]
+  learning_rate: 0.001       # Adam, no schedule
+  epochs: 400
+  batch_size: 1              # the whole training sequence is one batch element
+  warmup: 10                 # P: warm-up sessions prepended to every test pass, excluded from metrics
+  test_frac: 0.05            # 95-5 fixed-origin split
+  seeds: 30                  # seeds 0..29 for fixed-origin experiments
+  jit_compile_ncps: false    # set true on GPU to XLA-compile CfC/LTC (LSTM/GRU stay on cuDNN)
+
+# Width per target. CfC/LTC use AutoNCP(units, motor) with motor = 1 (adjclose) or 4 (ohlc),
+# exactly as in the original notebooks; LSTM/GRU use one recurrent layer of `units` + Dense(motor).
+capacity:
+  adjclose: {default: 20, ablation: 7}
+  ohlc:     {default: 80, ablation: 28}
+
+# Data: data/download_data.py writes data/raw/<file> from Yahoo Finance (oldest available date).
+# start: auto_ohlc -> the sample starts at the first session with genuine OHLC (drops the early
+# era in which the vendor reports O = H = L = C); applied identically for both targets.
+indices:
+  NIFTY50:   {file: NIFTY50.csv,  ticker: "^NSEI",     start: auto_ohlc}
+  NIFTY100:  {file: NIFTY100.csv, ticker: "^CNX100",   start: auto_ohlc}
+  NIFTY500:  {file: NIFTY500.csv, ticker: "^CRSLDX",   start: auto_ohlc}
+  SPX:       {file: SPX.csv,      ticker: "^GSPC",     start: auto_ohlc}
+  N225:      {file: N225.csv,     ticker: "^N225",     start: auto_ohlc}
+  SSE:       {file: SSE.csv,      ticker: "000001.SS", start: auto_ohlc, fallback: SSE_Composite.xlsx}
+
+experiments:
+  headline:     {indices: [NIFTY100], archs: [cfc, ltc, lstm, gru], width: default, test_fracs: [0.05]}
+  capacity:     {indices: [NIFTY100], archs: [cfc, ltc, lstm, gru], width: ablation, test_fracs: [0.05]}
+  split_sweep:  {indices: [NIFTY100, NIFTY500], archs: [cfc], width: default, test_fracs: [0.20, 0.15, 0.10, 0.05]}
+  cross_market: {indices: [NIFTY50, SPX, N225, SSE], archs: [cfc, ltc, lstm, gru], width: default, test_fracs: [0.05]}
+
+# Primary window (Sections 6.3-6.4): the headline comparison on the NIFTY 100 primary sample
+# (data/primary/, Yahoo ^CNX100 2005-11-30 .. 2024-07-16, N = 4,580; test window Aug 2023 - Jul 2024)
+# and its robustness to the protocol. Each variant is (data, timing, scaler_fit):
+#   primary  next_day  train  -> the one-step-ahead protocol: the headline (Table 4)
+#   primary  same_day  train  -> robustness protocol (2): target of the input session
+#   primary  same_day  full   -> robustness protocol (1): as (2) with a full-series scaler
+primary_window:
+  index: NIFTY100
+  primary_file: data/primary/NIFTY100_2024-07-16.csv
+  archs: [cfc, ltc, lstm, gru]
+  width: default
+  test_frac: 0.05
+  seeds: 10
+  variants: [[primary, same_day, full], [primary, same_day, train], [primary, next_day, train]]
+
+walk_forward:
+  index: NIFTY100
+  archs: [cfc, ltc, lstm, gru]
+  seeds: [0, 1, 2]
+  train_window: 1260
+  test_window: 252
+  step: 252
+  bull_threshold: 0.10       # annualised test-window return
+  bear_threshold: -0.10
+
+history_ablation:
+  index: NIFTY100
+  archs: [cfc, gru]
+  seeds: [0, 1, 2]
+  history_lengths: [1260, 2016, 2772, 3528, null]   # null = all history before the test window
+  test_frac: 0.05
+
+baselines:
+  arima_p: [0, 1, 2]
+  arima_q: [0, 1, 2]
+  arima_d: 1
+  arima_trend: t             # drift term for d = 1

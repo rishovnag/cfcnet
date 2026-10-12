@@ -1,0 +1,57 @@
+{
+  "source": "Yahoo Finance via yfinance",
+  "yfinance_version": "1.7.0",
+  "downloaded_utc": "2026-10-03 12:26",
+  "period": "oldest available to 2026-10-01 (exclusive)",
+  "auto_adjust": false,
+  "files": {
+    "NIFTY50.csv": {
+      "index": "NIFTY50",
+      "ticker": "^NSEI",
+      "rows": 4671,
+      "first": "2007-09-17",
+      "last": "2026-09-30",
+      "sha256": "c39c3013cfcd570874ef13ace1572e06601baf95820285f5e8dad2fd29f05720"
+    },
+    "NIFTY100.csv": {
+      "index": "NIFTY100",
+      "ticker": "^CNX100",
+      "rows": 5125,
+      "first": "2005-11-30",
+      "last": "2026-09-30",
+      "sha256": "b2be7f89acbda0b63e3a249d5bb7ead06768734ca36672c875fe84b36f61bef6"
+    },
+    "NIFTY500.csv": {
+      "index": "NIFTY500",
+      "ticker": "^CRSLDX",
+      "rows": 5168,
+      "first": "2005-09-26",
+      "last": "2026-09-30",
+      "sha256": "44726939dc03f31f88df634ff25c07b24152bde21f02c42062f97cf6d57b95bc"
+    },
+    "SPX.csv": {
+      "index": "SPX",
+      "ticker": "^GSPC",
+      "rows": 24804,
+      "first": "1927-12-30",
+      "last": "2026-09-30",
+      "sha256": "94afb467baed6ee40894ae7dadb88ec1c719e9ec45f5741de2d5d6786f8244ee"
+    },
+    "N225.csv": {
+      "index": "N225",
+      "ticker": "^N225",
+      "rows": 15176,
+      "first": "1965-01-05",
+      "last": "2026-09-30",
+      "sha256": "7193b661d77a04697fea7087e3004a6e81f874d20384344c7c2df9a6ef62b339"
+    },
+    "SSE.csv": {
+      "index": "SSE",
+      "ticker": "000001.SS",
+      "rows": 7087,
+      "first": "1997-07-02",
+      "last": "2026-09-30",
+      "sha256": "230f7b00ea8272b4218de5838364a059b8b289ae3689e4b70c50c683afc099b5"
+    }
+  }
+}

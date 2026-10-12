@@ -1,0 +1,19 @@
+# Runtime settings for the optional GPU backend (gpu/run_parallel.py; tuned on an NVIDIA H100). The experiment itself
+# (targets, representations, widths, seeds, windows) is defined in configs/paper.yaml and is
+# identical to the reference path in scripts/. Command-line flags override these values.
+
+gpus: [0]                    # GPU indices to use; workers are spread round-robin over them
+workers_per_gpu: 16          # concurrent training processes per GPU (tune with gpu/autotune.py)
+pack: 3                      # seeds trained together in one graph (1 = one model per process step)
+mps: true                    # use the NVIDIA Multi-Process Service so the workers' kernels overlap
+memory_limit_mb: 4096        # per-worker GPU memory cap (16 x 4 GB fits in 80 GB with headroom); 0 = growth
+cpu_threads_per_worker: 2    # TF intra-op threads per worker (inter-op is 1)
+pin_cpus: true               # give each worker its own CPU cores when the host has enough
+tf32: false                  # keep full fp32 matmuls for numerical fidelity with the reference path
+deterministic: false         # true -> tf.config.experimental.enable_op_determinism() (slower)
+whole_loop: true             # all epochs inside one compiled tf.function
+xla_ncps: true               # XLA-compile CfC / LTC training (LSTM / GRU always use cuDNN)
+xla_cache: true              # persistent XLA compilation cache shared by all workers (runs/xla_cache)
+xla_flags: ""                # extra XLA_FLAGS, e.g. "--xla_gpu_enable_command_buffer=FUSION,CUBLAS,CUDNN,WHILE"
+max_retries: 2               # re-queue a job this many times if its worker crashes
+progress_every_s: 60         # launcher progress line interval
