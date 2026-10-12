@@ -422,3 +422,9 @@ data from Yahoo Finance and are not redistributed here; their use is subject to 
 
 Questions and issues: please open a GitHub issue, or contact the corresponding author
 (Rishov Nag, University of Calcutta).
+
+---
+
+## Run Logs
+
+The run logs for this experiment are present at the following link: https://drive.google.com/drive/folders/1oplRA0xsLZY3BNhkE8A7mQWBL1BuMLnh?usp=sharing
