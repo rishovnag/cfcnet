@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite the paper below."
+title: "CFCNet: code, data and run logs"
+version: 1.0.0
+authors:
+  - family-names: Nag
+    given-names: Rishov
+    affiliation: University of Calcutta
+  - family-names: Banerjee
+    given-names: Chiraag
+    affiliation: University of Calcutta
+  - family-names: Choudhury
+    given-names: Sankhayan
+    affiliation: University of Calcutta
+  - family-names: Kumar Setua
+    given-names: Sanjit
+    affiliation: University of Calcutta
+license: MIT
+repository-code: "https://github.com/rishovnag/cfcnet"
+preferred-citation:
+  type: article
+  title: "CFCNet: A Comparative Study on the Performance of Gating and Non-Gating Neural Network Architectures in Equity Market Prediction"
+  authors:
+    - family-names: Nag
+      given-names: Rishov
+    - family-names: Banerjee
+      given-names: Chiraag
+    - family-names: Choudhury
+      given-names: Sankhayan
+    - family-names: Kumar Setua
+      given-names: Sanjit
+  journal: "Computational Economics"
+  notes: "Under review"

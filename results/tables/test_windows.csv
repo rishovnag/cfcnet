@@ -1,0 +1,7 @@
+index,N,train_targets,test_targets,n_test
+NIFTY 50,4671,19 Sep 2007 -- 17 Oct 2025,20 Oct 2025 -- 30 Sep 2026,234
+NIFTY 100,5125,2 Dec 2005 -- 12 Sep 2025,15 Sep 2025 -- 30 Sep 2026,257
+NIFTY 500,5168,28 Sep 2005 -- 10 Sep 2025,11 Sep 2025 -- 30 Sep 2026,259
+S\&P 500,13801,5 Jan 1972 -- 28 Dec 2023,29 Dec 2023 -- 30 Sep 2026,690
+Nikkei 225,9443,12 Apr 1988 -- 18 Oct 2024,21 Oct 2024 -- 30 Sep 2026,473
+SSE Composite,7087,4 Jul 1997 -- 17 Apr 2025,18 Apr 2025 -- 30 Sep 2026,355

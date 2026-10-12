@@ -1,0 +1,9 @@
+target,model,bull_lev,sideways_lev,bull_ret,sideways_ret
+adjclose,"CFC (20,1)",4.898,2.791,1.058,1.045
+adjclose,"LTC (20,1)",20.3,10.2,1.004,1.003
+adjclose,LSTM-20,5.924,2.919,1.024,1.020
+adjclose,GRU-20,3.906,2.034,1.057,1.040
+ohlc,"CFC (80,4)",2.866,2.006,0.824,0.810
+ohlc,"LTC (80,4)",17.2,5.978,0.798,0.790
+ohlc,LSTM-80,2.743,1.993,0.782,0.786
+ohlc,GRU-80,2.219,1.537,0.801,0.798
